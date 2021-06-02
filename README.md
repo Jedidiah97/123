@@ -1,11 +1,11 @@
 # 123
-#Download
+1. Download
 [Pykinect2](https://github.com/Kinect/PyKinect2)
 
-#Download
+2. Download
 [Pykinect2SandMount](https://github.com/twwspes/pykinect2SandMount)
 
-#After installations, connect your computer with KinectV2
+3. After installations, connect your computer with KinectV2
 
 #Important codes are posted below
 
