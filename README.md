@@ -410,7 +410,7 @@ def w_game():
         mouse_click = pygame.mouse.get_pressed()
         keys = pygame.key.get_pressed()
         
-    #We gave the page number according to its coordinates based on its row and column's number of a 3 by 3 bingo table
+    #We gave the page number according to its coordinates based on its row and column's number on a 3 by 3 bingo table
     #b_1(row: 1, column: 1)
         if b_screen.checkUpdate():
             screen2button = bingo_1.focusCheck(mouse_pos, mouse_click)
