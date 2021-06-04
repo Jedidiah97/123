@@ -417,7 +417,7 @@ def w_game():
     #3x3 빙고 표에서의 좌표(행과 열)에 따라 page에 숫자를 부여했다 
     #b_1(행: 1, 열: 1)
         
-        #메인 빙고 화면에서 각 게임 화면으로 변환
+        #빙고 판이 있는 메인 화면에서 각 게임 화면으로 전환
         if b_screen.checkUpdate():
             screen2button = bingo_1.focusCheck(mouse_pos, mouse_click)
             bingo_1.showButton(b_screen.returnTitle(),buttonlist[0])
@@ -426,7 +426,7 @@ def w_game():
                 g_screen=game.playGame(1)
                 b_screen.endCurrent()
         
-        #각 게임 화면에서 메인 빙고 화면으로 변환
+        #각 게임 화면에서 빙고 판이 있는 메인 화면으로 전환
         elif game.checkUpdate():
             b_screen.show_return_img()
             returnm = returnButton.focusCheck(mouse_pos, mouse_click)
