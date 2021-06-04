@@ -1,4 +1,5 @@
-# 123
+# HCI 02-Team 04 
+# Detailed code 
 1. Pykinect2 패키지를 다운로드 하세요
 [Pykinect2](https://github.com/Kinect/PyKinect2)
 
