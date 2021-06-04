@@ -1,16 +1,16 @@
 # 123
-1. Download
+1. Pykinect2 패키지를 다운로드 하세요
 [Pykinect2](https://github.com/Kinect/PyKinect2)
 
-2. Download
+2. Pykinect2SandMount 패키지를 다운로드 하세요
 [Pykinect2SandMount](https://github.com/twwspes/pykinect2SandMount)
 
-3. After installations, connect your computer with KinectV2
+3. 설치 후 컴퓨터를 KinectV2와 연결하세요
 
-#Important codes are posted below
+#핵심 코드들이 밑에 있어요
 
 ```Python
-#From Python
+#언어는 파이썬
 import pygame
 from pykinect2 import PyKinectV2
 from pykinect2.PyKinectV2 import *
@@ -26,7 +26,7 @@ import random
 import math
 import datetime
 
-#Button class
+#버튼 클래스
 class Button:
     def __init__(self, x, y, sx, sy, bborder,bcolour, fbcolour, font, fontsize, fcolour, text):
         self.x = x
@@ -42,7 +42,7 @@ class Button:
         self.current = False
         self.buttonf = pygame.font.SysFont(font, fontsize)
             
-#a Method that recognizes the user's mouse click 
+#사용자의 마우스 클릭을 인식하는 매서드 
     def focusCheck(self, mousepos, mouseclick):
         if(mousepos[0] >= self.x and mousepos[0] <= self.x + self.sx and mousepos[1] >= self.y and mousepos[1] <= self.y + self.sy):
             self.current = True
@@ -51,25 +51,25 @@ class Button:
             self.current = False
             return False
  
- #an Indispensable class to operate this game
+ #이 게임에서 없어서는 안 될 클래스
  class PyKinectCollect(object):
      def __init__(self, title, width = 1400, height=800, fill=YELLOW):
          self._clock = pygame.time.Clock()
 
-         #Set the screen size; width, height
+         #스크린의 사이즈 설정; 가로, 세로
          self._infoObject = pygame.display.Info()
          self._screen = pygame.display.set_mode((self._infoObject.current_w >> 1, self._infoObject.current_h >> 1), 
                                                pygame.HWSURFACE|pygame.DOUBLEBUF|pygame.RESIZABLE)                                          
-         #Unless the user clicks the close button
+         #사용자가 close 버튼을 누르지 않는다면
          self._done = False
 
          #Kinect runtime object 
          self._kinect = PyKinectRuntime.PyKinectRuntime(PyKinectV2.FrameSourceTypes_Color | PyKinectV2.FrameSourceTypes_Body)
 
-         #a Space(surface) for getting Kinect color frames, 32bit color, width and height 
+         #Kinect color frames, 32비트 색깔, 가로, 그리고 세로를 담을 공간(surface)
          self._frame_surface = pygame.Surface((self._kinect.color_frame_desc.Width, self._kinect.color_frame_desc.Height), 0, 32)
 
-         #a Space for skeleton data 
+         #골격 정보를 담는 공간 
          self._bodies = None
 
          self.current = False
@@ -78,16 +78,16 @@ class Button:
          self.height = height
          self.fill = fill        
 
-#a Method that realizes the user's body on the screen and contains the principle to operate 
+#사용자의 몸이 화면에 보이도록 하고, 게임 작동 원리를 담고 있는 매서드  
      def draw_body_bone(self, joints, jointPoints, color, joint0, joint1, boardN):
          joint0State = joints[joint0].TrackingState;
          joint1State = joints[joint1].TrackingState;
 
-         #If the user's joints are not tracked perfectly
+         #사용자의 관절이 부분적으로 인식될 때 
          if (joint0State == PyKinectV2.TrackingState_NotTracked) or (joint1State == PyKinectV2.TrackingState_NotTracked):
              return
 
-         #If the user's joints are not tracked at all
+         #사용자의 관절이 전혀 인식되지 않을 때 
          if (joint0State == PyKinectV2.TrackingState_Inferred) and (joint1State == PyKinectV2.TrackingState_Inferred):
              return
 
@@ -96,17 +96,17 @@ class Button:
          global starttime
          global flag
          
-         #The case for recognizing the user's head
+         #사용자의 머리를 인식하는 경우
          if (boardN == 1):
             
-            #Define coordinates x, y for the user's head recognition
+            #사용자의 머리 인식을 위해 x, y 좌표 정의 
             JointX = jointPoints[PyKinectV2.JointType_Head].x
             JointY = jointPoints[PyKinectV2.JointType_Head].y
             
-            #If the user's head is within this scope
+            #사용자의 머리가 주어진 범위 안에 있을 때 
             if (1400 <= JointX) and (1000 >= JointY):
                 
-                #First time
+                #처음 
                 if (starttime == 0):
                     timestamp = datetime.datetime.now().timestamp()
                     fts = timestamp
@@ -152,9 +152,10 @@ class Button:
                 print('touch2 right')
                 flag = 0
 
-        #The case for recognizing the user's hands
+        #사용자의 손을 인식하는 경우
         elif (boardN == 3):
-            #Define coordinates x, y for the user's hands recognition
+        
+            #사용자의 손 인식을 위해 x, y 좌표 정의
             JointXR = jointPoints[PyKinectV2.JointType_HandRight].x
             JointYR = jointPoints[PyKinectV2.JointType_HandRight].y
             JointXL = jointPoints[PyKinectV2.JointType_HandLeft].x
@@ -194,9 +195,10 @@ class Button:
             else:
                 starttime = 0
 
-        #The case for recognizing the user's knees
+        #사용자의 무릎을 인식하는 경우
         elif (boardN == 5):
-            #Define coordinates x, y for the user's knees recognition
+        
+            #사용자의 무릎 인식을 위해 x, y 좌표 정의
             JointXR = jointPoints[PyKinectV2.JointType_KneeRight].x
             JointYR = jointPoints[PyKinectV2.JointType_KneeRight].y
             JointXL = jointPoints[PyKinectV2.JointType_KneeLeft].x
@@ -236,9 +238,10 @@ class Button:
             else:
                 starttime = 0
 
-        #The case for recognizing the user's elbows
+        #사용자의 팔꿈치를 인식하는 경우 
         elif (boardN == 9):
-            #Define coordinates x, y for the user's elbows recognition
+        
+            #사용자의 팔꿈치 인식을 위해 x, y 좌표 정의
             JointXR = jointPoints[PyKinectV2.JointType_ElbowRight].x
             JointYR = jointPoints[PyKinectV2.JointType_ElbowRight].y
             JointXL = jointPoints[PyKinectV2.JointType_ElbowLeft].x
@@ -278,47 +281,47 @@ class Button:
             else:
                 starttime = 0
 
-#a Method that enables the user to play this game
+#사용자가 게임을 할 수 있도록 하는 매서드 
      def playGame(self,boardN):
         global flag
         flag = 1
         
-        #Main loop
+        #주요 루프(loop)
         while not self._done:
             
-            #If the user did something
+            #사용자가 어떤 것을 한다면
             for event in pygame.event.get():
             
-                #If the user clicks close
+                #사용자가 close 버튼을 누른다면 
                 if event.type == pygame.QUIT:
                 
-                    #a Flag that enables the user to get out of this loop
-                    self._done = True # Flag that we are done so we exit this loo
+                    #사용자가 이 루프(loop)를 나가게 하는 Flag 
+                    self._done = True 
                 
-                #The size of window changes
+                #화면의 크기가 변한다
                 elif event.type == pygame.VIDEORESIZE: 
                     self._screen = pygame.display.set_mode(event.dict['size'], 
                                                pygame.HWSURFACE|pygame.DOUBLEBUF|pygame.RESIZABLE)
                     
-            #To get frames and do drawing  
-            #It fills back buffer surface with frame data 
+            #프레임(frame)을 얻고, 그리기 위해   
+            #프레임 정보로 back buffer surface 채우기 
             if self._kinect.has_new_color_frame():
                 frame = self._kinect.get_last_color_frame()
                 self.draw_color_frame(frame, self._frame_surface)
                 frame = None
 
-            #To get the user's skeletons
+            #사용자의 골격을 인식하기 위해 
             if self._kinect.has_new_body_frame(): 
                 self._bodies = self._kinect.get_last_body_frame()
 
-            #It draws the user's skeletons to _frame_surface
+            #사용자의 골격을 _frame_surface에 그린다
             if self._bodies is not None: 
                 for i in range(0, self._kinect.max_body_count):
                     body = self._bodies.bodies[i]
                     if body.is_tracked and flag==1:
                         joints = body.joints
                         
-                        #Convert the user's joint coordinates to color space 
+                        #사용자의 관절 좌표를 color space로 바꾸기 
                         joint_points = self._kinect.body_joints_to_color_space(joints)
                         self.draw_body(joints, joint_points, SKELETON_COLORS[i],boardN)
                     elif (flag == 0) or (flag ==2):
@@ -327,24 +330,24 @@ class Button:
             if (flag == 0) or (flag == 2):
                 break
 
-            #It copies back buffer surface pixels to the screen and resizes it 
-            #Screen size depends on the Kinect's color frame size
+            #화면에 back buffer surface pixels를 복사하고, 그것의 크기를 조정한다 
+            #화면 크기는 Kinect's color frame size에 따라 다르다
             h_to_w = float(self._frame_surface.get_height()) / self._frame_surface.get_width()
             target_height = int(h_to_w * self._screen.get_width())
             surface_to_draw = pygame.transform.scale(self._frame_surface, (self._screen.get_width(), target_height));
             self._screen.blit(surface_to_draw, (0,0))
             surface_to_draw = None
             
-            #Problem images
+            #문제 이미지 
             titleImg = str(boardN) +"-3.png"
             
-            #One of two option(선택 문항) images
+            #선택 문항 이미지 
             OptionImg1 = str(boardN)+ "-1.png"
             
-            #One of two option(선택 문항) images
+            #선택 문항 이미지
             OptionImg2 = str(boardN )+"-2.png"
             
-            #It loads image and adjusts it as the set scale
+            #이미지를 싣고, 지정된 scale에 따라 그것을 조정한다
             img = pygame.image.load(OptionImg1)
             img = pygame.transform.scale(img, (230, 180))
             
@@ -354,20 +357,20 @@ class Button:
             img3 = pygame.image.load(titleImg)
             img3 = pygame.transform.scale(img3, (1000, 140))
             
-            #It shows images on the screen
+            #이미지를 화면에 보여줌 
             screen.blit(img, (250, 170))
             screen.blit(img2, (1050, 170))
             screen.blit(img3, (270, 10))
 
             pygame.display.update()
             
-            #The screen changes
+            #화면이 바뀜
             pygame.display.flip()
 
-            #Limitation of 60 frames per second
+            #초당 60 프레임(frame)의 제한 
             self._clock.tick(60)
 
-        #It notifies the user know he/she is correct or wrong
+        #사용자가 문제를 맞췄는지, 틀렸는지를 알려준다 
         if flag == 0:
             global buttonlist
             buttonlist[boardN-1]=1         
@@ -379,7 +382,7 @@ class Button:
             
         pygame.time.delay(3000)
 
-#The function that enables this game to work
+#이 게임이 작동되도록 하는 함수 
 def w_game():
     pygame.font.init()
 
@@ -388,7 +391,7 @@ def w_game():
     win = b_screen.makeCurrent()
     done = False
 
-    #It draws buttons
+    #버튼 그리기
     returnButton = Button(1000, 650, 300, 100,3, colours["Black"], colours["Cyan"], "arial", 20, colours["Black"], "RETURN")
     bingo_1 = Button(800,200,150,150,3, colours["White"], colours["Cyan"],"arial", 20, colours["Black"], "1")
     bingo_2 = Button(950,200,150,150,3, colours["White"], colours["Cyan"],"arial", 20, colours["Black"], "2")
@@ -410,8 +413,8 @@ def w_game():
         mouse_click = pygame.mouse.get_pressed()
         keys = pygame.key.get_pressed()
         
-    #We gave the page number according to its coordinates based on its row and column's number on a 3 by 3 bingo table
-    #b_1(row: 1, column: 1)
+    #3x3 빙고 표에서의 좌표(행과 열)에 따라 page에 숫자를 부여했다 
+    #b_1(행: 1, 열: 1)
         if b_screen.checkUpdate():
             screen2button = bingo_1.focusCheck(mouse_pos, mouse_click)
             bingo_1.showButton(b_screen.returnTitle(),buttonlist[0])
@@ -429,7 +432,7 @@ def w_game():
                 win = b_screen.makeCurrent()
                 game.endCurrent()
                 
-    #b_2(row: 1, column: 2)  
+    #b_2(행: 1, 열: 2)  
         if b_screen.checkUpdate():
             screen2button = bingo_2.focusCheck(mouse_pos, mouse_click)
             bingo_2.showButton(b_screen.returnTitle(),buttonlist[1])
@@ -438,7 +441,7 @@ def w_game():
                 g_screen=game.playGame(2)
                 b_screen.endCurrent()
 
-    #b_3(row: 1, column: 3)  
+    #b_3(행: 1, 열: 3)  
         if b_screen.checkUpdate():
             screen2button = bingo_3.focusCheck(mouse_pos, mouse_click)
             bingo_3.showButton(b_screen.returnTitle(),buttonlist[2])
@@ -447,7 +450,7 @@ def w_game():
                 g_screen=game.playGame(3)
                 b_screen.endCurrent()
                 
-    #b_4(row: 2, column: 1)   
+    #b_4(행: 2, 열: 1)   
         if b_screen.checkUpdate():
             screen2button = bingo_4.focusCheck(mouse_pos, mouse_click)
             bingo_4.showButton(b_screen.returnTitle(),buttonlist[3])
@@ -456,7 +459,7 @@ def w_game():
                 g_screen=game.playGame(4)
                 b_screen.endCurrent()
                 
-    #b_5(row: 2, column: 2)   
+    #b_5(행: 2, 열: 2)   
         if b_screen.checkUpdate():
             screen2button = bingo_5.focusCheck(mouse_pos, mouse_click)
             bingo_5.showButton(b_screen.returnTitle(),buttonlist[4])
@@ -465,7 +468,7 @@ def w_game():
                 g_screen=game.playGame(5)
                 b_screen.endCurrent()
 
-    #b_6(row: 2, column: 3)  
+    #b_6(행: 2, 열: 3)  
         if b_screen.checkUpdate():
             screen2button = bingo_6.focusCheck(mouse_pos, mouse_click)
             bingo_6.showButton(b_screen.returnTitle(),buttonlist[5])
@@ -474,7 +477,7 @@ def w_game():
                 g_screen=game.playGame(6)
                 b_screen.endCurrent()
 
-    #b_7(row: 3, column: 1)   
+    #b_7(행: 3, 열: 1)   
         if b_screen.checkUpdate():
             screen2button = bingo_7.focusCheck(mouse_pos, mouse_click)
             bingo_7.showButton(b_screen.returnTitle(),buttonlist[6])
@@ -483,7 +486,7 @@ def w_game():
                 g_screen=game.playGame(7)
                 b_screen.endCurrent()
 
-    #b_8(row: 3, column: 2)   
+    #b_8(행: 3, 열: 2)   
         if b_screen.checkUpdate():
             screen2button = bingo_8.focusCheck(mouse_pos, mouse_click)
             bingo_8.showButton(b_screen.returnTitle(),buttonlist[7])
@@ -492,7 +495,7 @@ def w_game():
                 g_screen=game.playGame(8)
                 b_screen.endCurrent()
 
-    #b_9(row: 3, column: 3)   
+    #b_9(행: 3, 열: 3)   
         if b_screen.checkUpdate():
             screen2button = bingo_9.focusCheck(mouse_pos, mouse_click)
             bingo_9.showButton(b_screen.returnTitle(),buttonlist[8])
